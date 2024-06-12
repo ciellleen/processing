@@ -1,0 +1,598 @@
+# 코드 1
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  if(Serial.available() <= 0) return;
+
+  Serial.println(Serial.available());
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0,0);
+}
+
+void loop(){
+
+  drive_motor_control(1,200);
+
+}
+
+```
+
+### 코드 1 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/5a169007-1010-44ee-9d1d-1f723f9c1d96/76eeadfc-4538-413b-ad6e-a123122cea00.png)
+
+# 코드2
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil("\n");
+
+  Serial.println(Serial_Data_String);
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0,0);
+}
+
+void loop(){
+
+  drive_motor_control(1,200);
+
+}
+
+```
+
+### 코드2 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/183dc7da-c0f1-4682-986f-ce49353c91f0/cb08a8e1-4d58-4dba-a2fc-f6cb8510e79d.png)
+
+# 코드3
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil("\n");
+
+  index_s = Serial_Data_String.indexOf("#");
+  index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0,0);
+}
+
+void loop(){
+
+  drive_motor_control(1,200);
+
+}
+
+```
+
+### 코드3 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/fde5dc97-f270-491d-8843-ef6e490d5ba2/Untitled.png)
+
+# 코드4
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil("\n");
+
+  index_s = Serial_Data_String.indexOf("#");
+  index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+
+  if((index_s == -1) || (index_e == -1))
+  {
+    Serial.println("NO Protocal");
+    return;
+  }
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0,0);
+}
+
+void loop(){
+
+  drive_motor_control(1,200);
+
+}
+```
+
+### 코드4 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/8c599c69-8c7f-4f4e-bd6f-d422dd26d50f/e65b06be-1231-4c80-8764-d58383f52844.png)
+
+# 코드5
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil('\n'); // 작은따옴표로 수정
+
+  index_s = Serial_Data_String.indexOf("#");
+  index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+
+  if((index_s == -1) || (index_e == -1))
+  {
+    //Serial.println("NO Protocal");
+    return;
+  }
+  else
+  {
+    if(Serial_Data_String.charAt(2) == 'M') Serial.println("M"); // charAt으로 수정
+    {
+      Serial.println(Serial_Data_String.indexOf("-1", 3));
+      Serial.println(Serial_Data_String.indexOf("0", 3));
+      Serial.println(Serial_Data_String.indexOf("1", 3));
+    }
+  }
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0, 0);
+}
+
+void loop(){
+  drive_motor_control(1, 200);
+}
+
+```
+
+### 코드5 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/5bcdcb2d-b75a-4cd0-9e43-9bddff83a167/Untitled.png)
+
+# 코드6
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  String Pwm_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil('\n'); 
+
+  index_s = Serial_Data_String.indexOf("#");
+  index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+
+  if((index_s == -1) || (index_e == -1))
+  {
+    //Serial.println("NO Protocal");
+    return;
+  }
+  else
+  {
+    if(Serial_Data_String.charAt(2) == 'M') Serial.println("M"); 
+    {
+
+      if(Serial_Data_String.indexOf("0", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+      }
+      if(Serial_Data_String.indexOf("1", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+        Serial.println(Pwm_Data_String);
+      }
+      Serial.println(Serial_Data_String.indexOf("-1", 3));
+    }
+  }
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0, 0);
+}
+
+void loop(){
+  drive_motor_control(1, 200);
+}
+
+```
+
+### 코드 6 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/bef4c7ca-de29-40b2-a49c-69ca2f306e65/Untitled.png)
+
+# 코드7
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  String Pwm_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil('\n'); 
+
+  index_s = Serial_Data_String.indexOf("#");
+  index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+
+  if((index_s == -1) || (index_e == -1))
+  {
+    //Serial.println("NO Protocal");
+    return;
+  }
+  else
+  {
+    if(Serial_Data_String.charAt(2) == 'M') Serial.println("M"); 
+    {
+
+      if(Serial_Data_String.indexOf("0", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+        Serial.println(Pwm_Data_String);
+      }
+      if(Serial_Data_String.indexOf("1", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+        Serial.println(Pwm_Data_String);
+      }
+      if( (Serial_Data_String.indexOf("-", 3) == 4) && (Serial_Data_String.indexOf("1", 4) == 5));
+      {
+        Pwm_Data_String = Serial_Data_String.substring(7, index_e-1);
+        Serial.println(Pwm_Data_String);
+      }
+    }
+  }
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0, 0);
+}
+
+void loop(){
+  drive_motor_control(1, 200);
+}
+
+```
+
+### 코드7 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/8cdad40e-4db6-42f7-b1af-7d5df6ef590d/Untitled.png)
+
+# 코드8
+
+```arduino
+#define ENA 6
+#define IN1 7
+#define IN2 8
+
+int motor_pwm;
+
+void drive_motor_control(int direction, int pwm)
+{
+  switch(direction)
+  {
+    case 1:   //전진 모터 구동
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, pwm);
+      break;
+    case 0:   //정지
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, LOW);
+      analogWrite(ENA, 0);
+      break;
+    case -1:   //후진 모터 구동
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      analogWrite(ENA, pwm);
+      break;
+  }
+}
+
+void serial_com(void)
+{
+  String Serial_Data_String;
+  String Pwm_Data_String;
+  int index_s, index_e;
+  index_s = index_e = 0;
+  if(Serial.available() <= 0) return;
+  Serial_Data_String = Serial.readStringUntil('\n'); 
+
+  //index_s = Serial_Data_String.indexOf("#");
+  //index_e = Serial_Data_String.indexOf("*");
+
+  Serial.println(index_s);
+  Serial.println(index_e);
+
+  if((index_s == -1) || (index_e == -1))
+  {
+    //Serial.println("NO Protocal");
+    return;
+  }
+  else
+  {
+    if(Serial_Data_String.charAt(2) == 'M') Serial.println("M"); 
+    {
+
+      if(Serial_Data_String.indexOf("0", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+        Serial.println(Pwm_Data_String);
+
+        motor_pwm = Pwm_Data_String.toInt();
+        drive_motor_control(0, 0);
+      }
+      if(Serial_Data_String.indexOf("1", 3) == 4)
+      {
+        Pwm_Data_String = Serial_Data_String.substring(6, index_e-1);
+        Serial.println(Pwm_Data_String);
+        motor_pwm = Pwm_Data_String.toInt();
+        drive_motor_control(1, motor_pwm);
+      }
+      if( (Serial_Data_String.indexOf("-", 3) == 4) && (Serial_Data_String.indexOf("1", 4) == 5));
+      {
+        Pwm_Data_String = Serial_Data_String.substring(7, index_e-1);
+        Serial.println(Pwm_Data_String);
+        motor_pwm = Pwm_Data_String.toInt();
+        drive_motor_control(-1, motor_pwm);
+      }
+        
+    }
+  }
+}
+
+void setup(){
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  Serial.begin(115200);
+  drive_motor_control(0, 0);
+}
+
+void loop(){
+
+}
+
+```
+
+### 코드8 시리얼 모니터
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/f863b218-8086-4874-936e-cd66ef05b9f5/Untitled.png)
+
+# 엑셀
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/43f4c680-a7ab-4f2d-b233-d37ec40472ce/157e0fca-5b51-4f93-bdfb-b9160c13f781/Untitled.png)
